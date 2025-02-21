@@ -1,69 +1,56 @@
-/*!
-* Start Bootstrap - Shop Homepage v5.0.6 (https://startbootstrap.com/template/shop-homepage)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+const produtos = [
+    { nome: "Vestido Grecia", preco: 179.90, imagem: "imagem/vestidoGrecia.jpg" },
+    { nome: "Vestido Boho Estampa Planta Tropical", preco: 129.90, imagem: "imagem/vestidoBoho.jpg" },
+    { nome: "Conjunto de Cropped e Saia Modern Grecia-Oasis", preco: 199.90, imagem: "imagem/conjuntoOasis.jpg" },
+    { nome: "Vestido de Praia Estilo Boêmio", preco: 129.90, imagem: "imagem/vestidoBoemio.jpg" },
+    { nome: "Vestido Esplendor Tropical Preto", preco: 99.90, imagem: "imagem/vestidoEsplendor.jpg" },
+    { nome: "Vestido Midi Ravela", preco: 279.00, imagem: "imagem/vestidoRavenala.jpg" },
+    { nome: "Vestido Farm Longo Estampado", preco: 99.90, imagem: "imagem/vestidoFarm.jpg" },
+    { nome: "Vestido Karisma", preco: 119.90, imagem: "imagem/vestidoKarismina.jpg" },
+    
+];
 
-// Função para carregar os produtos do arquivo CSV
-function carregarProdutos() {
-    fetch('/file/produtos.csv')
-        .then(response => response.text())
-        .then(csv => {
-            const produtos = csv.split('\n').slice(1).map(linha => {
-                const [nome, preco, imagem] = linha.split(';');
-                return { nome, preco, imagem };
-            });
+const produtosDiv = document.getElementById("produtos");
+const carrinhoLista = document.getElementById("carrinho");
+const totalElement = document.getElementById("total");
 
-            const listaProdutos = document.getElementById('lista-produtos');
-            produtos.forEach(produto => {
-                const div = document.createElement('div');
-                div.classList.add('produto');
-                div.innerHTML = `
-                    <h3>${produto.nome}</h3>
-                    <img src="${produto.imagem}" alt="${produto.nome}" width="300" height="300">
-                    <p>Preço: R$ ${produto.preco}</p>
-                    <button onclick="adicionarAoCarrinho('${produto.nome}', ${produto.preco}, '${produto.imagem}')">Adicionar ao Carrinho</button>
-                `;
-                listaProdutos.appendChild(div);
-            });
-        });
-}
+let carrinho = [];
 
-// Função para adicionar um produto ao carrinho
-function adicionarAoCarrinho(nome, preco, imagem) {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    carrinho.push({ nome, preco, imagem });
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    atualizarCarrinho();
-}
-
-function removerDoCarrinho(nome) {
-    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    carrinho = carrinho.filter(item => item.nome !== nome);
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    atualizarCarrinho();
-}
-
-// Função para atualizar a exibição do carrinho
-function atualizarCarrinho() {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const listaCarrinho = document.getElementById('lista-carrinho');
-    listaCarrinho.innerHTML = '';
-    carrinho.forEach(item => {
-        const div = document.createElement('div');
-        div.innerHTML = `
-            <img src="${item.imagem}" alt="${item.nome}" width="50">
-            <span>${item.nome} - R$ ${item.preco}</span>
-            <button onclick="removerDoCarrinho('${item.nome}')">Remover</button>
+function exibirProdutos() {
+    produtos.forEach(produto => {
+        const produtoDiv = document.createElement("div");
+        produtoDiv.classList.add("produto");
+        produtoDiv.innerHTML = `
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <h3>${produto.nome}</h3>
+            <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
+            <button onclick="adicionarAoCarrinho('${produto.nome}', ${produto.preco})">
+            Adicionar ao Carrinho</button>
         `;
-        listaCarrinho.appendChild(div);
+        produtosDiv.appendChild(produtoDiv);
     });
 }
 
-// Carregar os produtos e atualizar o carrinho ao carregar a página
-window.onload = () => {
-    carregarProdutos();
+function adicionarAoCarrinho(nome, preco) {
+    carrinho.push({ nome, preco });
     atualizarCarrinho();
-};
+}
+
+function removerDoCarrinho(index) {
+    carrinho.splice(index, 1);
+    atualizarCarrinho();
+}
+
+function atualizarCarrinho() {
+    carrinhoLista.innerHTML = "";
+    let total = 0;
+    carrinho.forEach((item, index) => {
+        const itemLista = document.createElement("li");
+        itemLista.innerHTML = `${item.nome} - R$ ${item.preco.toFixed(2)} <button onclick="removerDoCarrinho(${index})">Remover</button>`;
+        carrinhoLista.appendChild(itemLista);
+        total += item.preco;
+    });
+    totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+}
+
+exibirProdutos();
