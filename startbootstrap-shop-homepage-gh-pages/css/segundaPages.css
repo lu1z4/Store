@@ -29,7 +29,7 @@
 .form-group{
     padding: 2px;
     margin: 20px;
-    color: rgb(0, 0, 0);
+    color: rgb(5, 5, 5);
 }
 
 
@@ -57,7 +57,7 @@
 }
 
 .botao:hover {
-    background-color: #dba759;
+    background-color: #e0852a;
 }
 
 p{
@@ -72,7 +72,7 @@ body {
   font-family: sans-serif;
   margin: 0;
   padding: 0;
-  background-color: hsl(36, 50%, 92%); /* Cor de fundo geral */
+  background-color: hsla(37, 55%, 79%, 0.397); /* Cor de fundo geral */
   color: #000000; /* Cor do texto geral */
 }
 
@@ -88,12 +88,12 @@ nav li {
 }
 
 .form-section {
-  background: hsl(43, 49%, 73%);
+  background: hsla(36, 59%, 77%, 0.541);
   padding: 100px;
   border: 1px solid #000000;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(116, 111, 111, 0.1);
-  max-width: 3000px;
+  border-radius: 50px;
+  box-shadow: 0 20px 15px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
   margin:20px auto;
   text-align: center;
 }
@@ -115,6 +115,19 @@ footer {
   padding: 10px;
   text-align: center;
   box-shadow: 0px -2px 5px rgba(36, 34, 34, 0.1); /* Sombra no rodapé */
-  margin-top: 530px;
-  
+  margin-top: 380px;
+}
+
+.compra {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #a07028;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.compra:hover {
+  background-color: #e99f55;
 }
